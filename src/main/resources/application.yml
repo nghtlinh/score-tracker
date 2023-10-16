@@ -1,0 +1,17 @@
+#logging:
+#  config: classpath:log4j2.xml
+server:
+  port: 8000
+spring:
+  datasource:
+    username: root
+    password: admin
+    url: jdbc:mysql://localhost:3306/db_score_tracker
+  jpa:
+    database-platform: org.hibernate.dialect.MySQL8Dialect
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        show_sql: true
+        format_sql: true
