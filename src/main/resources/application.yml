@@ -1,12 +1,12 @@
 #logging:
 #  config: classpath:log4j2.xml
 server:
-  port: 8000
+  port: 8080
 spring:
   datasource:
-    username: root
-    password: admin
-    url: jdbc:mysql://localhost:3306/db_score_tracker
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+    url: ${DB_URL}
   jpa:
     database-platform: org.hibernate.dialect.MySQL8Dialect
     hibernate:
