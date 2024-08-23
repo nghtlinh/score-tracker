@@ -1,4 +1,7 @@
 # Performance Scorecard
+## Author
+
+Monica Nguyen
 
 ## Description
 
