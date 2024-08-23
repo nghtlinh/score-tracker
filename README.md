@@ -1,27 +1,60 @@
-# score-tracker
+# Performance Scorecard
 
-#### Setup mysql for development mode
-- Nếu không dùng docker mà chỉ chạy trên máy cá nhân thì phải thực hiện 2 bước sau
-  - Bước 1: cài đặt maven và build source code thành file jar (chạy lệnh ```mvn clean install``` để build file .jar)
-  - Bước 2: cài đặt môi trường để chạy java(jdk) để run file jar (chạy lệnh ```java -jar score-tracker.jar``` để run file .jar)
+## Description
 
-- Sử dụng docker: Tạo Dockerfile, chia làm 2 giai đoạn để build image
-  - Giai đoạn 1: từ image maven, copy source vào /app và chạy lệnh ```mvn clean install```
-  - Giai đoạn 2: sau khi build được file jar từ giai đoạn 1, từ image jdk chạy ```java -jar score-tracker.jar```
-  - Chạy lệnh ```docker build -t score-tracker:1.0 .``` để build image, trong đó -t (tag) để khai báo tên image và version của image, trong trường hợp này tên image là score-tracker và version là 1.0
-  
-- Chạy lệnh ```docker images``` để check image vừa được tạo
-#### Dockerfile
-```dockerfile
-FROM maven:3.8.3-openjdk-17 as build
-WORKDIR /app
-COPY . .
-RUN mvn clean install
+The **Performance Scorecard** project is a microservices-based application designed to track employee performance. It includes various APIs that manage information across different databases, allowing organizations to effectively monitor productivity.
 
-FROM openjdk:17-alpine
-COPY --from=build /app/target/score-tracker-0.0.1-SNAPSHOT.jar score-tracker.jar
-EXPOSE 8080
-ENTRYPOINT exec java -jar score-tracker.jar
-```
+- **Developed an employee performance tracking microservice** with multiple APIs for managing data across different databases, enabling organizations to oversee and improve productivity.
+- **Implemented secure user authentication** using JSON Web Tokens (JWT) and established role-based access control through Spring Security to ensure appropriate user privileges.
 
-- Chạy tiếp lệnh ```docker-compose up``` để start database và ứng dụng spring
+## Setup MySQL for Development Mode
+
+### Without Docker
+
+If you are running the application locally without Docker, follow these steps:
+
+1. **Install Maven and Build the Source Code**
+   - Run the command: `mvn clean install` to build the source code into a `.jar` file.
+
+2. **Install Java Development Kit (JDK)**
+   - Ensure that JDK is installed to run the `.jar` file.
+   - Run the command: `java -jar score-tracker.jar` to execute the `.jar` file.
+
+### Using Docker
+
+To use Docker for development, follow these steps:
+
+1. **Create a Dockerfile**
+   - The Dockerfile is divided into two stages to build the image:
+
+     **Stage 1:**
+     - Base Image: `maven:3.8.3-openjdk-17`
+     - Copy source code into `/app` and run: `mvn clean install` to build the `.jar` file.
+
+     **Stage 2:**
+     - Base Image: `openjdk:17-alpine`
+     - Copy the `.jar` file from the build stage.
+     - Run the application using: `java -jar score-tracker.jar`.
+
+   - Dockerfile content:
+     ```dockerfile
+     FROM maven:3.8.3-openjdk-17 as build
+     WORKDIR /app
+     COPY . .
+     RUN mvn clean install
+
+     FROM openjdk:17-alpine
+     COPY --from=build /app/target/score-tracker-0.0.1-SNAPSHOT.jar score-tracker.jar
+     EXPOSE 8080
+     ENTRYPOINT exec java -jar score-tracker.jar
+     ```
+
+2. **Build the Docker Image**
+   - Run the command: `docker build -t score-tracker:1.0 .`
+   - `-t` (tag) specifies the name and version of the image. Here, the image name is `score-tracker` and the version is `1.0`.
+
+3. **Check the Created Docker Image**
+   - Run the command: `docker images` to list the created images.
+
+4. **Start the Application**
+   - Run the command: `docker-compose up` to start both the database and the Spring application.
